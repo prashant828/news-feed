@@ -9,8 +9,6 @@ const reducer = (state = initialNewsList, action) => {
                 ...state,
                 newsChannelsList: action.payload.channels
             }
-        case 'SORT_BY_SOURCE':
-
     }
     return state;
 };

@@ -3,7 +3,6 @@ import NewsTile from '../components/newsTile';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import classes from './newsList.module.css';
-import Sort from '../components/sort';
 import Aux from '../hoc/aux';
 import SearchBar from '../components/searchBar'
 
@@ -38,7 +37,6 @@ class newsList extends Component{
             <Aux>
                 <SearchBar {...this.props}/>
                 <div className={classes.newsList}>
-                    <Sort/>
                     {newsTiles}
                 </div>
             </Aux>
@@ -53,7 +51,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        storeNews: (newsList)=>dispatch({type: 'STORE_NEWS', payload: newsList})
+        storeNews: (newsList)=>dispatch({type: 'STORE_NEWS', payload: newsList}),
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(newsList);

@@ -8,32 +8,69 @@ import Sort from '../components/sort';
 import Aux from '../hoc/aux';
 import SearchBar from '../components/searchBar.js'
 
-class newsChannelsList extends Component {
+let labels = {
+    SORT_BY_SOURCE: 'Sort by source',
+    A_TO_Z: 'A To Z',
+    Z_TO_A: 'Z To A'
+};
 
+class newsChannelsList extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            sortBySource: labels.SORT_BY_SOURCE,
+        };
+    }
     componentDidMount(){
         if(!this.props.newsChannelsList || this.props.newsChannelsList.length === 0) {
             axios.get('https://newsapi.org/v1/sources')
                 .then(channels => {
                     this.props.storeNewsChannelsList(channels.data.sources);
-                    // this.setState({news: news.data.sources})
+                    let sources = channels.data.sources.map((source, index) => {
+                        return source.name;
+                    });
+                    this.setState({
+                        sources
+                    });
                 });
         }
     }
+    sortOnClick = () => {
+        if(this.state.sortBySource === labels.SORT_BY_SOURCE){
+            this.setState({
+                sortBySource: labels.A_TO_Z
+            }, () => {
+                this.props.sortBySource(this.props.newsChannelsList, labels.A_TO_Z);
+            });
+        } else if (this.state.sortBySource === labels.A_TO_Z) {
+            this.setState({
+                sortBySource: labels.Z_TO_A
+            }, () => {
+                this.props.sortBySource(this.props.newsChannelsList, labels.Z_TO_A);
+            });
+        } else if (this.state.sortBySource === labels.Z_TO_A) {
+            this.setState({
+                sortBySource: labels.A_TO_Z
+            }, () => {
+                this.props.sortBySource(this.props.newsChannelsList, labels.A_TO_Z);
+            });
+        }
+    };
     render(){
-        let channelsTiles = this.props.newsChannelsList.map(singleChannel =>
-            <Link to={'channel/'+singleChannel.id} key={singleChannel.id}>
+        let channelsTiles = this.props.newsChannelsList.map((singleChannel, index) => {
+            return(<Link to={'channel/'+singleChannel.id} key={singleChannel.id}>
                 <NewsChannelTile
                     title = {singleChannel.name}
                     desc = {singleChannel.description}
                     link = {singleChannel.url}
                 />
-            </Link>
-            );
+            </Link>);
+        });
         return (
             <Aux>
                 <SearchBar {...this.props}/>
                 <div className={classes.newsList}>
-                    <Sort click={this.props.sortBySource}/>
+                    <Sort click={this.sortOnClick} label={this.state.sortBySource}/>
                     {channelsTiles}
                 </div>
             </Aux>
@@ -50,7 +87,28 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
     return{
         storeNewsChannelsList: (newsChannelsList) => dispatch({type: 'STORE_NEWS_CHANNELS_LIST', payload: {channels: newsChannelsList}}),
-        sortBySource: () => dispatch({type: 'SORT_BY_SOURCE'})
+        sortBySource: (list, sorting) => {
+            if(sorting === labels.A_TO_Z){
+                list = list.sort((a,b) => {
+                    if(a.name < b.name){
+                        return 1;
+                    } else if (a.name > b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+            } else if (sorting === labels.Z_TO_A) {
+                list = list.sort((a,b) => {
+                    if(a.name < b.name){
+                        return -1;
+                    } else if (a.name > b.name) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            }
+            return dispatch({type: 'SORT_BY_SOURCE', list: list});
+        }
     }
 
 };
