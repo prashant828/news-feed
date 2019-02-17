@@ -1,0 +1,20 @@
+.nav{
+    width: 100%;
+    background: #918beb;
+    padding: 10px 0;
+}
+.home{
+    font-weight: bold;
+    color: white;
+    margin-right: 10px;
+}
+.btn{
+    display: inline-block;
+    margin-left: 10px;
+    background: #5240eb;
+    padding: 5px;
+    color: white;
+    border-radius: 5px;
+    font-size: smaller;
+    cursor: pointer;
+}

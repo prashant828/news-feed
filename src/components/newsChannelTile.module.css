@@ -1,0 +1,23 @@
+.newsTile{
+    width: 20%;
+    height: 200px;
+    display: inline-block;
+    background: #ffffff;
+    margin: 10px;
+    overflow: hidden;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(204,204,204,0.6);
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.newsTile p {
+    margin: 5px;
+    font-size: smaller;
+
+}
+
+a{
+    color: #292929
+}
+

@@ -1,0 +1,11 @@
+.newsList{
+    width: 100%;
+    margin: auto;
+    height: 100vh;
+    overflow-y: scroll;
+    background: #eeeeee;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
