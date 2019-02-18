@@ -19,7 +19,6 @@ class searchBar extends Component{
                     axios.get('https://newsapi.org/v2/everything?q=`'+this.state.searchInput+'`')
                         .then(res=>{
                             this.setState({searchResult: res.data.articles});
-                            console.log(this.state.searchResult)
                         });
                 }
             }, 500)

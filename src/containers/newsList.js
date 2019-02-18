@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import classes from './newsList.module.css';
 import Aux from '../hoc/aux';
-import SearchBar from '../components/searchBar'
+import SearchBar from '../components/searchBar';
+import Sort from '../components/sort'
 
 class newsList extends Component{
     componentDidMount(){
@@ -37,6 +38,7 @@ class newsList extends Component{
             <Aux>
                 <SearchBar {...this.props}/>
                 <div className={classes.newsList}>
+                    <Sort click={()=>this.props.sortByTitle(this.props.match.params.id)} label='Sort by title'/>
                     {newsTiles}
                 </div>
             </Aux>
@@ -52,6 +54,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         storeNews: (newsList)=>dispatch({type: 'STORE_NEWS', payload: newsList}),
+        sortByTitle: (id)=>dispatch({type: 'SORT', payload: {id: id}})
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(newsList);
