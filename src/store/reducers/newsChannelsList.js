@@ -1,5 +1,6 @@
 let initialNewsList = {
-    newsChannelsList: []
+    newsChannelsList: [],
+    toggle: true
 };
 
 const reducer = (state = initialNewsList, action) => {
@@ -9,11 +10,40 @@ const reducer = (state = initialNewsList, action) => {
                 ...state,
                 newsChannelsList: action.payload.channels
             };
-        case 'SORT_BY_SOURCE':
+        case 'SORT_BY_NAME':
+            let updateArray = [...state.newsChannelsList];
+            if(state.toggle){
+                updateArray.sort((a,b)=>{
+                    if(a.name>b.name){
+                        return -1
+                    }
+                    if(a.name<b.name){
+                        return 1
+                    }
+                    else {
+                        return 0
+                    }
+                });
+            }
+            if(!state.toggle) {
+                updateArray.sort((a, b) => {
+                    if (a.name > b.name) {
+                        return 1
+                    }
+                    if (a.name < b.name) {
+                        return -1
+                    }
+                    else {
+                        return 0
+                    }
+                });
+            }
+            updateArray.pop();
             return {
                 ...state,
-                newsChannelsList: action.list,
-            };
+                newsChannelsList: updateArray,
+                toggle: !state.toggle
+            }
     }
     return state;
 };
