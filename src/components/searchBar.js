@@ -7,12 +7,25 @@ import axios from 'axios';
 class searchBar extends Component{
     state = {
         searchInput: '',
+        searchResult:[]
     };
 
     handleSearchChange = (e) => {
         this.setState({
             searchInput: e.target.value
+        }, () => {
+            if(this.state.searchInput.length > 3){
+                setTimeout(()=>{
+                    axios.get('https://newsapi.org/v2/everything?q=`'+this.state.searchInput+'`')
+                        .then(res=>{
+                            this.setState({searchResult: res.data.articles});
+                            console.log(this.state.searchResult)
+                        });
+                }, 500)
+
+            }
         });
+
     };
     handleClick = () => {
         if(this.state.searchInput.length < 3){
@@ -26,16 +39,26 @@ class searchBar extends Component{
         }
     };
 
-
     render(){
+        let list = this.state.searchResult.map(result=> <a href={result.url} target='_blank'><div onClick={()=>this.handleClick()}>{result.title.substring(0,10)}</div></a>)
+        let display = 'none';
+        if(this.state.searchResult.length > 1){
+            display = 'block';
+        }
+        if(this.state.searchResult.length < 1 || this.state.searchInput.length < 2){
+            display = 'none';
+        }
         return (
             <div className={classes.nav}>
                 <div className={classes.inner}>
                     <Link to={'/'}>
                         <span className={classes.home}>Home</span>
                     </Link>
-                    <input type="text" className={classes.input} onChange={this.handleSearchChange}/>
+                    <input type="text" className={classes.input} onKeyUp={this.handleSearchChange}/>
                     <div className={classes.btn} onClick={this.handleClick}>Search</div>
+                </div>
+                <div className={classes.suggestion} style={{display: display}}>
+                    {list}
                 </div>
             </div>
         )

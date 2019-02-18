@@ -18,3 +18,17 @@
     font-size: smaller;
     cursor: pointer;
 }
+.suggestion{
+    position: absolute;
+    width: 180px;
+    height: 200px;
+    background: white;
+    margin: auto;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    font-size: small;
+}
+.suggestion div{
+    padding: 5px
+}

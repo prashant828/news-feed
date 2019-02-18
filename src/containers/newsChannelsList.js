@@ -26,12 +26,6 @@ class newsChannelsList extends Component {
             axios.get('https://newsapi.org/v1/sources')
                 .then(channels => {
                     this.props.storeNewsChannelsList(channels.data.sources);
-                    let sources = channels.data.sources.map((source, index) => {
-                        return source.name;
-                    });
-                    this.setState({
-                        sources
-                    });
                 });
         }
     }
