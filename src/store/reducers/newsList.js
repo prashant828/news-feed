@@ -10,7 +10,7 @@ const reducer = (state = initialState, action) => {
                 newsList: state.newsList.concat(action.payload)
             }
     }
-    return initialState
+    return state
 };
 
 export default reducer;
